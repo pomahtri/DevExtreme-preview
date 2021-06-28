@@ -7,11 +7,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Changed Files
-        id: changed
+        id: playground
         uses: foodee/pr-includes-file-change@master
         with:
           paths: ^playgroud/jquery.html
 
-      - name: Echo Match
-        if: steps.changed.outputs.matched == 'true'
-        run: echo Matched
+      - name: Dekete playground
+        if: steps.playground.outputs.matched == 'true'
+        run: |
+          rm playground/jquery.html
+
+      - name: Commit deleted playground
+        uses: stefanzweifel/git-auto-commit-action@v4
+        if: steps.playground.outputs.matched == 'true'
+        with:
+          commit_message: Automated Change
+          file_pattern: playgroud/jquery.html
