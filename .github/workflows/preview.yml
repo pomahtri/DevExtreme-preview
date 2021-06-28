@@ -1,0 +1,17 @@
+name: Bundlers tests
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+      steps:
+        - name: Get Changed Files
+          id: changed
+          uses: foodee/pr-includes-file-change@master
+          with:
+            paths: ^playgroud/jquery.html
+
+        - name: Echo Match
+          if: steps.changed.outputs.matched == 'true'
+          run: echo Matched
