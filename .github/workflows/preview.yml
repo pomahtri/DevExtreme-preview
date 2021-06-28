@@ -14,13 +14,13 @@ jobs:
               - 'playground/sample.html'
 
       - name: Delete playground
-        if: steps.playground.outputs.playground == true
+        if: steps.changed.outputs.playground == 'true'
         run: |
           rm playground/sample.html
 
       - name: Commit deleted playground
         uses: stefanzweifel/git-auto-commit-action@v4
-        if: steps.playground.outputs.playground == true
+        if: steps.changed.outputs.playground == 'true'
         with:
           commit_message: Automated Change
           file_pattern: playgroud/sample.html
