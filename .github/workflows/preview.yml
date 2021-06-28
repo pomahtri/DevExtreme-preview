@@ -27,4 +27,3 @@ jobs:
         if: steps.changed.outputs.playground == 'true'
         with:
           commit_message: Automated Change
-          file_pattern: playgroud/sample.html
