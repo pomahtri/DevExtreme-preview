@@ -6,20 +6,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Changed Files
-        id: playground
-        uses: foodee/pr-includes-file-change@master
+      - uses: dorny/paths-filter@v2
+        id: changed
         with:
-          paths: ^playgroud/jquery.html
+          filters: |
+            playground:
+              - 'playground/jquery.html'
 
-      - name: Dekete playground
-        if: steps.playground.outputs.matched == 'true'
+      - name: Delete playground
+        if: steps.playground.outputs.playground == 'true'
         run: |
           rm playground/jquery.html
 
       - name: Commit deleted playground
         uses: stefanzweifel/git-auto-commit-action@v4
-        if: steps.playground.outputs.matched == 'true'
+        if: steps.playground.outputs.playground == 'true'
         with:
           commit_message: Automated Change
           file_pattern: playgroud/jquery.html
