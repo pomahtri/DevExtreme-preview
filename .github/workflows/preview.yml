@@ -17,14 +17,32 @@ jobs:
             playground:
               - 'playground/sample.html'
 
-      - name: Delete playground
+      - name: Build
         if: steps.changed.outputs.playground == 'true'
         run: |
-          rm playground/sample.html
-          echo asd > asd
+          npm i
+          npm run build
+
+      - name: Modify playground
+        if: steps.changed.outputs.playground == 'true'
+        run: |
+          echo " " >> playground/sample.html
 
       - name: Commit deleted playground
         uses: stefanzweifel/git-auto-commit-action@v4
         if: steps.changed.outputs.playground == 'true'
         with:
-          commit_message: Automated Change
+          branch: gh-pages
+          commit_message: build
+
+      # - name: Delete playground
+      #   if: steps.changed.outputs.playground == 'true'
+      #   run: |
+      #     rm playground/sample.html
+
+      # - name: Commit deleted playground
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   if: steps.changed.outputs.playground == 'true'
+      #   with:
+      #     commit_message: Automated Change
+      #     file_pattern: playgroud/sample.html
