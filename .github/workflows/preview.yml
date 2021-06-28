@@ -1,4 +1,4 @@
-name: Bundlers tests
+name: Preview
 
 on: pull_request
 
