@@ -30,11 +30,16 @@ jobs:
         run: |
           npm i
           npm run build
+        env:
+          PR: ${{ github.event.number }}
+
+      - name: Checkout to pages
+        run: |
+          git checkout gh-pages
+          rm -r $PR
           mkdir $PR
           mv artifacts $PR
           mv playground $PR
-        env:
-          PR: ${{ github.event.number }}
 
       - name: Commit to pages
         uses: stefanzweifel/git-auto-commit-action@v4
