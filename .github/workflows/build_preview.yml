@@ -30,6 +30,7 @@ jobs:
         run: |
           npm i
           npm run build
+          mv playground ..
         env:
           PR: ${{ github.event.number }}
 
@@ -40,7 +41,7 @@ jobs:
           rm -r $PR
           mkdir $PR
           mv artifacts $PR
-          mv playground $PR
+          mv ../playground $PR
         env:
           PR: ${{ github.event.number }}
 
