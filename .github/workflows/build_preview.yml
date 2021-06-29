@@ -41,6 +41,8 @@ jobs:
           mkdir $PR
           mv artifacts $PR
           mv playground $PR
+        env:
+          PR: ${{ github.event.number }}
 
       - name: Commit to pages
         uses: stefanzweifel/git-auto-commit-action@v4
