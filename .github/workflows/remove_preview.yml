@@ -1,0 +1,39 @@
+name: Close preview
+
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: dorny/paths-filter@v2
+        if: steps.changed.outputs.playground == 'true'
+        id: changed
+        with:
+          filters: |
+            playground:
+              - 'playground/sample.html'
+
+      - name: checkout to pages
+        run: |
+          git checkout gh-pages
+
+      - name: Delete pages
+        if: steps.changed.outputs.playground == 'true'
+        run: |
+          rm -r $PR
+        env:
+          PR: ${{ github.event.number }}
+
+      - name: Commit deleted changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        if: steps.changed.outputs.playground == 'true'
+        with:
+          commit_message: Automated Change
+          file_pattern: playgroud/sample.html
