@@ -17,13 +17,10 @@ jobs:
             playground:
               - 'playground/sample.html'
 
-      - uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            Demo in https://pomahtri.github.io/DevExtreme/${{ steps.findPr.outputs.pr }}
+            Demo in https://pomahtri.github.io/DevExtreme/${{ github.event.number }}
 
       - name: Build
         if: steps.changed.outputs.playground == 'true'
@@ -34,13 +31,13 @@ jobs:
           mv artifacts $PR
           mv playground $PR
         env:
-          PR: ${{ steps.findPr.outputs.pr }}
+          PR: ${{ github.event.number }}
 
       - name: Commit to pages
         uses: stefanzweifel/git-auto-commit-action@v4
         if: steps.changed.outputs.playground == 'true'
         with:
-          file_pattern: ${{ steps.findPr.outputs.pr }}
+          file_pattern: ${{ github.event.number }}
           branch: gh-pages
           commit_message: build
 
