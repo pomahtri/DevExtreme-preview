@@ -22,15 +22,15 @@ jobs:
         run: |
           npm i
           npm run build
-          mkdir PULL_REQUEST_DEMO
-          mv artifacts PULL_REQUEST_DEMO
-          mv playground PULL_REQUEST_DEMO
+          mkdir $GITHUB_REF
+          mv artifacts $GITHUB_REF
+          mv playground $GITHUB_REF
 
       - name: Commit to pages
         uses: stefanzweifel/git-auto-commit-action@v4
         if: steps.changed.outputs.playground == 'true'
         with:
-          file_pattern: PULL_REQUEST_DEMO
+          file_pattern: ${{ github.ref }}
           branch: gh-pages
           commit_message: build
 
