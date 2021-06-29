@@ -13,7 +13,6 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - uses: dorny/paths-filter@v2
-        if: steps.changed.outputs.playground == 'true'
         id: changed
         with:
           filters: |
