@@ -12,12 +12,16 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: dorny/paths-filter@v2
-        id: changed
-        with:
-          filters: |
-            playground:
-              - 'playground/sample.html'
+      - name: check if sample exists
+        id: check
+        run: |
+          git checkout gh-pages
+          if [[ -d ${{ github.event.number }} ]]; then
+            echo "::set-output name=haspg::true"
+          else
+            echo "::set-output name=haspg::false"
+          fi
+          git checkout ${{ github.head_ref }}
 
       - name: checkout to pages
         run: |
@@ -25,7 +29,7 @@ jobs:
           git checkout gh-pages
 
       - name: Delete pages
-        if: steps.changed.outputs.playground == 'true'
+        if: steps.check.outputs.haspg == 'true'
         run: |
           rm -r $PR
         env:
@@ -33,7 +37,7 @@ jobs:
 
       - name: Commit deleted changes
         uses: stefanzweifel/git-auto-commit-action@v4
-        if: steps.changed.outputs.playground == 'true'
+        if: steps.check.outputs.haspg == 'true'
         with:
           commit_message: Automated Change
           file_pattern: ${{ github.event.number }}
