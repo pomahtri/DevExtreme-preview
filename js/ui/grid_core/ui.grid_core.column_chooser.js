@@ -477,7 +477,7 @@ export const columnChooserModule = {
                                 onInitialized: onInitialized
                             },
                             showText: 'inMenu',
-                            location: 'after',
+                            location: 'before',
                             name: 'columnChooserButton',
                             locateInMenu: 'auto',
                             sortIndex: 40
