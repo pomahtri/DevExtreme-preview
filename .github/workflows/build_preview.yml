@@ -12,6 +12,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - run: |
+          echo ${{ github.head_ref }}
+          echo $(git branch)
+
       - uses: dorny/paths-filter@v2
         id: changed
         with:
