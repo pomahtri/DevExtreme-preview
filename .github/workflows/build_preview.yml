@@ -35,6 +35,7 @@ jobs:
           PR: ${{ github.event.number }}
 
       - name: Checkout to pages
+        if: steps.changed.outputs.playground == 'true'
         run: |
           git fetch --depth=1
           git checkout gh-pages
