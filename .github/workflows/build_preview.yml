@@ -62,6 +62,7 @@ jobs:
       - name: Delete playground
         if: steps.changed.outputs.playground == 'true'
         run: |
+          git checkout ${{ github.ref }}
           rm playground/sample.html
 
       - name: Commit deleted playground
