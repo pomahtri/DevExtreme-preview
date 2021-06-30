@@ -12,10 +12,6 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - run: |
-          echo ${{ github.head_ref }}
-          echo $(git branch)
-
       - uses: dorny/paths-filter@v2
         id: changed
         with:
@@ -66,7 +62,7 @@ jobs:
       - name: Delete playground
         if: steps.changed.outputs.playground == 'true'
         run: |
-          git checkout ${{ github.ref }}
+          git checkout ${{ github.head_ref }}
           rm playground/sample.html
 
       - name: Commit deleted playground
