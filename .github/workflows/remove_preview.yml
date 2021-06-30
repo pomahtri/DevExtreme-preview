@@ -15,6 +15,7 @@ jobs:
       - name: check if sample exists
         id: check
         run: |
+          git fetch --depth=1
           git checkout gh-pages
           if [[ -d ${{ github.event.number }} ]]; then
             echo "::set-output name=haspg::true"
@@ -25,7 +26,6 @@ jobs:
 
       - name: checkout to pages
         run: |
-          git fetch --depth=1
           git checkout gh-pages
 
       - name: Delete pages
